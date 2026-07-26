@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="OkfParsingLibrary.Tests/OkfParsingLibrary.Tests.csproj" />
+  <Project Path="OkfParsingLibrary/OkfParsingLibrary.csproj" />
+</Solution>
