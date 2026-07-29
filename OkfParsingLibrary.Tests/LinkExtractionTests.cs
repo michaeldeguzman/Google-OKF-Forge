@@ -66,6 +66,16 @@ public class LinkExtractionTests
     }
 
     [Fact]
+    public void CrossBundleOkfLink_WithSpaceInBundleName()
+    {
+        var links = OkfParser.ExtractLinks("[margin policy](okf://Acme Retail/policies/margin-standard.md)");
+        var link = Assert.Single(links);
+        Assert.True(link.IsCrossBundle);
+        Assert.Equal("Acme Retail", link.TargetBundleName);
+        Assert.Equal("policies/margin-standard", link.TargetPath);
+    }
+
+    [Fact]
     public void LinkWithNoMdSuffix_DoesNotThrow()
     {
         var links = OkfParser.ExtractLinks("[weird link](/tables/orders)");
