@@ -48,8 +48,8 @@ public static partial class OkfParser
         string tagsCsv = GetStr("tagsCsv");
         if (tagsCsv.Length > 0)
         {
-            var tagsArr = new JsonArray(tagsCsv.Split(',').Select(t => (JsonNode?)JsonValue.Create(t.Trim())).ToArray());
-            sb.Append("tags: ").Append(YamlSubsetEmitter.EmitFlowSequence(tagsArr)).Append('\n');
+            var tags = SplitTagsForEmit(tagsCsv);
+            sb.Append("tags: [").Append(string.Join(", ", tags.Select(EmitTagValue))).Append("]\n");
         }
 
         string generatedBy = GetStr("generatedBy");
@@ -98,5 +98,60 @@ public static partial class OkfParser
         }
 
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Splits TagsCsv back into individual tag values for emission. A plain
+    /// `Split(',')` can't distinguish a real delimiter from a comma that is
+    /// part of a single tag's own text (e.g. a tag parsed from a quoted
+    /// `"hello, world"`) -- by the time it reaches TagsCsv, the quote marks
+    /// that protected it are already gone. The one signal still available:
+    /// every genuine delimiter comma is immediately followed by a non-space
+    /// character (every real tag is trimmed before being joined with a bare
+    /// "," -- see ParseFlowSequence/ParseBlockSequence/the tags case in
+    /// OkfParser.Frontmatter.cs), so a comma followed by a space can only be
+    /// a tag's own embedded comma, never a delimiter.
+    /// </summary>
+    private static List<string> SplitTagsForEmit(string tagsCsv)
+    {
+        var tokens = new List<string>();
+        var current = new StringBuilder();
+        for (int i = 0; i < tagsCsv.Length; i++)
+        {
+            char c = tagsCsv[i];
+            if (c == ',' && (i + 1 >= tagsCsv.Length || tagsCsv[i + 1] != ' '))
+            {
+                tokens.Add(current.ToString());
+                current.Clear();
+            }
+            else
+            {
+                current.Append(c);
+            }
+        }
+        tokens.Add(current.ToString());
+        return tokens;
+    }
+
+    /// <summary>
+    /// Quotes a single tag value if left unquoted it would either change
+    /// meaning or fail to survive re-parsing inside a flow sequence: a comma
+    /// (indistinguishable from the sequence's own delimiter once unquoted),
+    /// a leading/trailing space (silently dropped -- SplitTopLevel's Trim()
+    /// runs before Unquote and only quoting protects content inside it), a
+    /// leading quote character (would be misread as this scalar starting a
+    /// quoted run), or an empty value (an unquoted empty slot is skipped
+    /// entirely by ParseFlowSequence, silently dropping the tag). Uses the
+    /// same double-quote/backslash-escaping convention YamlSubset.cs's
+    /// Unquote already reads on the way in.
+    /// </summary>
+    private static string EmitTagValue(string tag)
+    {
+        bool needsQuoting = tag.Length == 0
+            || tag.Contains(',')
+            || char.IsWhiteSpace(tag[0]) || char.IsWhiteSpace(tag[^1])
+            || tag[0] == '"' || tag[0] == '\'';
+        if (!needsQuoting) return tag;
+        return "\"" + tag.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
     }
 }

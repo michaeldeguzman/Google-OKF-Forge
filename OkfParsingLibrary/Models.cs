@@ -29,7 +29,20 @@ public struct ParsedFrontmatter
     public string Title;
     public string Description;
     public string Resource;
-    public string TagsCsv;
+    public string TagsCsv;           // comma-separated, trimmed, non-empty tag values. A quoted flow/block tag
+                                      // whose own text contains ", " (comma followed by a space) round-trips
+                                      // correctly through ParseFrontmatter and SerializeConcept, because a
+                                      // genuine delimiter is never followed by a space (real tags are trimmed
+                                      // before being joined with a bare ","), so that's the one signal left to
+                                      // tell a tag's own comma from a real delimiter. Without a following
+                                      // space -- a tag containing "a,b" with no space, or ending in a bare
+                                      // trailing comma like "foo," -- the storage format itself cannot tell
+                                      // that apart from two separate tags; it parses (and stays) identical
+                                      // either way, not because it "survives" but because TagsCsv genuinely
+                                      // cannot represent the distinction. The plain-scalar YAML form
+                                      // (`tags: a, b`) has no quoting convention at all -- there the comma IS
+                                      // always the delimiter, so it can never express a comma-containing tag;
+                                      // that is inherent to the form, not a defect. (See TagsCommaLimitationTests.cs.)
     public string Status;
     public string StaleAfter;        // ISO date string, empty if absent
     public string GeneratedBy;
