@@ -86,6 +86,10 @@ bundles pulled directly from
 [GoogleCloudPlatform/knowledge-catalog](https://github.com/GoogleCloudPlatform/knowledge-catalog)'s
 `okf/bundles/` directory (`acme_retail`, `crypto_bitcoin`, `ga4`,
 `stackoverflow`), used as realistic test data — not hand-written fixtures.
+That upstream repository is licensed under
+[Apache License 2.0](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/LICENSE.md);
+these bundles are redistributed here unmodified, under that same license,
+for test purposes.
 
 ## License
 
