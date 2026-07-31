@@ -105,6 +105,21 @@ public class CanonicalBundleFixtureTests
         [("acme_retail/computations/gross-margin-period.md", "verified[0].at")] = "2026-07-01T09:00:00Z",
     };
 
+    /// <summary>
+    /// stackoverflow/datasets/stackoverflow.md's golden "tags" value was
+    /// originally the raw scalar as authored ("Stack Overflow, Q&amp;A, ..." --
+    /// space after every comma), recorded by a reference YAML parser answering
+    /// "what does this scalar say". That is the wrong oracle for TagsCsv:
+    /// TagsCsv's contract is a comma-separated list of trimmed, non-empty tag
+    /// values, independent of source YAML form (see okf-tags-normalisation-
+    /// prompt.md) -- the flow and block forms were already trimmed on the way
+    /// in, only the plain-scalar form wasn't. The golden fixture was updated
+    /// in place to the normalised value ("Stack Overflow,Q&amp;A,...", no
+    /// space after the delimiter, internal space in "Stack Overflow"
+    /// preserved) rather than normalising in the comparison, so this test
+    /// still catches a future regression in the trim/normalise behaviour
+    /// itself.
+    /// </summary>
     public static IEnumerable<object[]> GoldenFrontmatterCases() =>
         GoldenFrontmatter.Value.Select(kv => new object[] { kv.Key });
 
@@ -269,31 +284,11 @@ public class CanonicalBundleFixtureTests
     }
 
     // ---- Gate 4: parse -> serialize -> reparse round trip, all 53 files ----
-
-    /// <summary>
-    /// These 8 stackoverflow files write "tags" as a plain comma-separated
-    /// scalar (e.g. "tags: stackoverflow, posts, questions") instead of a YAML
-    /// list. OKF SPEC.md Â§4.1 defines tags as "a YAML list of short strings",
-    /// so this is a producer error in the source files, not a construct this
-    /// library needs to preserve byte-for-byte. SerializeConcept always emits
-    /// tags as a proper flow sequence, which is more spec-conformant than the
-    /// input -- so for exactly these 8 files, Gate 4 asserts the round trip
-    /// converges on the normalised (no-space, list-shaped) TagsCsv rather than
-    /// literal input equality. Every other field on these files, and every
-    /// field (including TagsCsv) on the other 45 concept files, is still
-    /// asserted with full strict equality.
-    /// </summary>
-    private static readonly HashSet<string> TagsNormalizedOnEmit = new()
-    {
-        "stackoverflow/datasets/stackoverflow.md",
-        "stackoverflow/tables/users.md",
-        "stackoverflow/tables/posts_moderator_nomination.md",
-        "stackoverflow/tables/votes.md",
-        "stackoverflow/tables/posts_questions.md",
-        "stackoverflow/tables/stackoverflow_posts.md",
-        "stackoverflow/tables/posts_wiki_placeholder.md",
-        "stackoverflow/tables/posts_answers.md",
-    };
+    // TagsCsv is now normalised at parse time regardless of source YAML form
+    // (see okf-tags-normalisation-prompt.md), so first-parse TagsCsv already
+    // equals what re-parse-after-emit produces -- no per-file exceptions
+    // needed here any more (a prior TagsNormalizedOnEmit allowlist covered
+    // the 8 stackoverflow plain-scalar-tags files before this fix).
 
     public static IEnumerable<object[]> AllConceptFileCases()
     {
@@ -335,12 +330,7 @@ public class CanonicalBundleFixtureTests
         Assert.True(reSplit.HasFrontmatter, $"{bundleName}/{path}: serialized output lost its frontmatter block");
         var reparsed = OkfParser.ParseFrontmatter(reSplit.FrontmatterRaw);
 
-        string fullPath = $"{bundleName}/{path}";
-        var expectedForComparison = original;
-        if (TagsNormalizedOnEmit.Contains(fullPath))
-            expectedForComparison.TagsCsv = string.Join(",", original.TagsCsv.Split(',').Select(t => t.Trim()));
-
-        TestHelpers.AssertParsedFrontmatterEqual(expectedForComparison, reparsed, fullPath);
+        TestHelpers.AssertParsedFrontmatterEqual(original, reparsed, $"{bundleName}/{path}");
         Assert.Equal(split.Body, reSplit.Body);
     }
 }

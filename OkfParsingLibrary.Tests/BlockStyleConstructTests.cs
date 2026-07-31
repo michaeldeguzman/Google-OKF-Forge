@@ -87,13 +87,13 @@ public class BlockStyleConstructTests
     }
 
     [Fact]
-    public void TagsAsPlainScalar_RoutesToTagsCsvVerbatim()
+    public void TagsAsPlainScalar_NormalizesToTrimmedNoSpaceCsv()
     {
         string frontmatter = "tags: Stack Overflow, Q&A, developer, programming, public dataset\n";
 
         var fm = OkfParser.ParseFrontmatter(frontmatter);
 
         Assert.Equal("", fm.ParseError);
-        Assert.Equal("Stack Overflow, Q&A, developer, programming, public dataset", fm.TagsCsv);
+        Assert.Equal("Stack Overflow,Q&A,developer,programming,public dataset", fm.TagsCsv);
     }
 }
