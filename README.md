@@ -50,8 +50,13 @@ dotnet test --filter "FullyQualifiedName~RoundTripTests"   # run one test class
 
 ## Deploying to ODC
 
-Package `OkfParsingLibrary.OdcExternalLogic` for upload via ODC Portal ->
-External Logic -> Upload:
+**Quickest path:** download `OkfParsingLibrary-ODC.zip` from the
+[latest release](https://github.com/michaeldeguzman/Google-OKF-Forge/releases/latest)
+and upload it directly in ODC Portal -> External Logic -> Upload. No build
+required.
+
+To build it yourself instead, package `OkfParsingLibrary.OdcExternalLogic`
+for upload via ODC Portal -> External Logic -> Upload:
 
 ```bash
 dotnet publish OkfParsingLibrary.OdcExternalLogic/OkfParsingLibrary.OdcExternalLogic.csproj -c Release -o OkfParsingLibrary.OdcExternalLogic/publish
