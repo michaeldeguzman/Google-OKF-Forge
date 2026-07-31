@@ -1,0 +1,58 @@
+crypto_bitcoin/references/metrics/duplicate_transactions.md
+  description = 'An anomaly detection metric to find historical duplicate transactions across different blocks.'
+crypto_bitcoin/references/joins/blocks___transactions.md
+  description = 'Join relationship linking blocks to their corresponding transactions by block height / block number.'
+crypto_bitcoin/references/joins/outputs___transactions.md
+  description = 'Join path between transactions and outputs to audit target recipient distribution.'
+crypto_bitcoin/tables/blocks.md
+  description = 'All blocks from the Bitcoin blockchain, including block headers, transaction counts, sizes, and timestamps.'
+crypto_bitcoin/tables/outputs.md
+  description = 'Outputs from all Bitcoin transactions, including script details and values in Satoshis.'
+crypto_bitcoin/tables/transactions.md
+  description = 'All Bitcoin transactions containing inputs, outputs, block metadata, and fee structures.'
+crypto_bitcoin/datasets/crypto_bitcoin.md
+  description = 'A public Google BigQuery dataset containing the complete transaction ledger and block history of the Bitcoin blockchain.'
+ga4/references/metrics/acquired_users.md
+  description = 'Builds an audience of users acquired via a specific Source, Medium, and Campaign name.'
+ga4/references/metrics/google_acquired_cohorts.md
+  description = 'Builds an audience of users acquired in a specific time-window cohort filtered by Google campaign source.'
+ga4/references/metrics/highly_active_users.md
+  description = 'Builds an audience of users active for more than N minutes in the last M days.'
+ga4/references/metrics/n_day_inactive_users.md
+  description = 'Builds an audience of users active in the last M days who have not been active in the last N days.'
+ga4/references/metrics/purchasers.md
+  description = 'Computes the count or list of users who have completed a purchase or in-app purchase.'
+ga4/tables/events_.md
+  description = 'Google Analytics 4 event-level daily sharded export tables containing user interaction logs.'
+ga4/datasets/ga4_obfuscated_sample_ecommerce.md
+  description = 'Obfuscated Google Analytics 4 dataset emulating a web ecommerce implementation of the Google Merchandise Store.'
+stackoverflow/references/content_licenses.md
+  description = 'Lookup table defining user-contributed content licensing rules and dates on the Stack Exchange network.'
+stackoverflow/references/post_types.md
+  description = 'Enum lookup values for the PostTypeId column in Stack Overflow posts tables.'
+stackoverflow/references/vote_types.md
+  description = 'Enum lookup values for the VoteTypeId column in the Stack Overflow votes table.'
+stackoverflow/references/metrics/bad_question_flag_ratio.md
+  description = 'Calculates the ratio of spam and offensive flags (VoteTypeId 4 and 12) to overall votes/flags.'
+stackoverflow/tables/badges.md
+  description = 'This table contains information about badges awarded to users on Stack Overflow.'
+stackoverflow/tables/post_history.md
+  description = 'Records the history of all changes and events related to posts on Stack Overflow.'
+stackoverflow/tables/posts_answers.md
+  description = 'Contains Stack Overflow answers, including their content, scores, and associated metadata.'
+stackoverflow/tables/posts_moderator_nomination.md
+  description = 'Contains posts related to moderator nominations on the Stack Overflow platform.'
+stackoverflow/tables/posts_orphaned_tag_wiki.md
+  description = 'Posts that serve as wiki entries for tags that no longer exist or are orphaned.'
+stackoverflow/tables/posts_privilege_wiki.md
+  description = "Contains information about Stack Overflow's privilege wiki posts, detailing user capabilities and their requirements."
+stackoverflow/tables/posts_tag_wiki.md
+  description = 'Detailed wiki entries associated with tags used on Stack Overflow, providing comprehensive information beyond the basic tag descriptions.'
+stackoverflow/tables/posts_wiki_placeholder.md
+  description = 'Placeholder table for various Wiki-style posts within the Stack Overflow dataset.'
+stackoverflow/tables/stackoverflow_posts.md
+  description = 'A deprecated table containing Stack Overflow posts. Use the posts_answers or posts_questions tables instead.'
+stackoverflow/tables/tags.md
+  description = 'Contains information about tags used on Stack Overflow, including their names and usage counts.'
+stackoverflow/datasets/stackoverflow.md
+  description = 'This dataset contains a public archive of Stack Overflow data, including posts, users, and tags. It was last updated on 2022-11-25 and is no longer actively updated.'

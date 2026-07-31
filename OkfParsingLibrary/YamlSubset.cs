@@ -82,7 +82,7 @@ internal static class YamlSubsetParser
         {
             if (trimmed.StartsWith('[')) return ParseFlowSequence(trimmed);
             if (trimmed.StartsWith('{')) return ParseFlowMapping(trimmed);
-            return ScalarNode(trimmed);
+            return ScalarNode(FoldContinuationLines(trimmed, parentIndent, lines, ref pos));
         }
 
         if (pos < lines.Count && lines[pos].Indent > parentIndent)
@@ -93,7 +93,33 @@ internal static class YamlSubsetParser
             return ParseMappingBlock(childIndent, lines, ref pos);
         }
 
+        // A block sequence is allowed to line up with the indent of the key
+        // that owns it (e.g. "tags:\n- a\n- b"), not just indented under it.
+        if (pos < lines.Count && lines[pos].Indent == parentIndent && StartsWithDash(lines[pos].Text))
+            return ParseBlockSequence(parentIndent, lines, ref pos);
+
         return ScalarNode(""); // key with no inline value and no block continuation
+    }
+
+    // A plain scalar can fold onto following lines that are indented past the
+    // key's own column, joined with a single space (YAML plain-scalar folding).
+    // Stops at the first line that looks like a sibling key or sequence item,
+    // so it never swallows the next real key.
+    private static string FoldContinuationLines(string firstLine, int parentIndent, List<Line> lines, ref int pos)
+    {
+        if (pos >= lines.Count || lines[pos].Indent <= parentIndent)
+            return firstLine;
+
+        var sb = new StringBuilder(firstLine);
+        while (pos < lines.Count
+            && lines[pos].Indent > parentIndent
+            && !StartsWithDash(lines[pos].Text)
+            && !KeyLine.IsMatch(lines[pos].Text))
+        {
+            sb.Append(' ').Append(lines[pos].Text.Trim());
+            pos++;
+        }
+        return sb.ToString();
     }
 
     private static JsonObject ParseMappingBlock(int indent, List<Line> lines, ref int pos)

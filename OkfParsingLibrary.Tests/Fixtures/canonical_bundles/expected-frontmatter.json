@@ -1,0 +1,233 @@
+{
+  "ga4/tables/events_.md": {
+    "why": "folded scalar + col-0 seq + block mapping",
+    "expected": {
+      "type": "BigQuery Table",
+      "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/ga4_obfuscated_sample_ecommerce/tables/events_*",
+      "title": "GA4 Events Export",
+      "description": "Google Analytics 4 event-level daily sharded export tables containing user interaction logs.",
+      "tags": [
+        "analytics",
+        "e-commerce",
+        "ga4",
+        "sharded-tables"
+      ],
+      "generated": {
+        "by": "reference_agent/gemini-3.5-flash",
+        "at": "2026-07-10T21:15:20+00:00"
+      },
+      "sources": [
+        {
+          "title": "Google Analytics Help: BigQuery Export Schema",
+          "id": "ga4-export-docs",
+          "resource": "https://support.google.com/analytics/answer/7029846"
+        },
+        {
+          "title": "BigQuery Table Metadata",
+          "id": "metadata",
+          "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/ga4_obfuscated_sample_ecommerce/tables/events_*"
+        },
+        {
+          "title": "Sample queries for audiences based on BigQuery data - Analytics Help",
+          "resource": "https://support.google.com/analytics/answer/9037342",
+          "id": "sample_queries"
+        }
+      ]
+    }
+  },
+  "stackoverflow/references/joins/posts__votes.md": {
+    "why": "col-0 seq of mappings + non-ASCII title",
+    "expected": {
+      "type": "Reference",
+      "resource": "https://meta.stackexchange.com/questions/2677/database-schema-documentation-for-the-public-data-dump-and-sede",
+      "title": "Posts ↔ Votes Join",
+      "description": "Join path between the votes and posts tables.",
+      "tags": [
+        "join",
+        "posts",
+        "votes"
+      ],
+      "generated": {
+        "by": "reference_agent/gemini-3.5-flash",
+        "at": "2026-07-10T23:02:55+00:00"
+      },
+      "sources": [
+        {
+          "resource": "https://meta.stackexchange.com/questions/2677/database-schema-documentation-for-the-public-data-dump-and-sede",
+          "id": "meta_schema_doc",
+          "title": "Database schema documentation for the public data dump and SEDE"
+        }
+      ]
+    }
+  },
+  "crypto_bitcoin/tables/transactions.md": {
+    "why": "col-0 seq + quoted ISO datetime",
+    "expected": {
+      "type": "BigQuery Table",
+      "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/crypto_bitcoin/tables/transactions",
+      "title": "Bitcoin Transactions Table",
+      "description": "All Bitcoin transactions containing inputs, outputs, block metadata, and fee structures.",
+      "tags": [
+        "bitcoin",
+        "crypto",
+        "blockchain",
+        "transactions"
+      ],
+      "generated": {
+        "by": "reference_agent/gemini-3.5-flash",
+        "at": "2026-07-10T23:16:14+00:00"
+      },
+      "sources": [
+        {
+          "title": "Bitcoin ETL Parser",
+          "resource": "https://github.com/blockchain-etl/bitcoin-etl",
+          "id": "bitcoin-etl"
+        },
+        {
+          "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/crypto_bitcoin/tables/transactions",
+          "id": "bq-metadata",
+          "title": "BigQuery transactions Table Schema"
+        },
+        {
+          "resource": "https://cloud.google.com/blog/topics/public-datasets/bitcoin-in-bigquery-blockchain-analytics-on-public-data",
+          "id": "gcp-blog",
+          "title": "Bitcoin in BigQuery: blockchain analytics on public data"
+        }
+      ]
+    }
+  },
+  "stackoverflow/datasets/stackoverflow.md": {
+    "why": "folded scalar spanning >2 lines",
+    "expected": {
+      "type": "BigQuery Dataset",
+      "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/stackoverflow",
+      "title": "Stack Overflow Public Dataset",
+      "description": "This dataset contains a public archive of Stack Overflow data, including posts, users, and tags. It was last updated on 2022-11-25 and is no longer actively updated.",
+      "tags": "Stack Overflow, Q&A, developer, programming, public dataset",
+      "generated": {
+        "by": "reference_agent/gemini-2.5-flash",
+        "at": "2026-07-10T22:46:36+00:00"
+      },
+      "sources": [
+        {
+          "title": "Stack Overflow Public Dataset",
+          "resource": "https://bigquery.googleapis.com/v2/projects/bigquery-public-data/datasets/stackoverflow",
+          "id": "stackoverflow-dataset-resource"
+        }
+      ]
+    }
+  },
+  "acme_retail/metrics/gross-margin.md": {
+    "why": "REGRESSION: flow style + 'not' extension key",
+    "expected": {
+      "type": "Metric",
+      "title": "Gross Margin",
+      "description": "Gross margin for a period, per Acme's FY2026 Cost Allocation Standard (product cost + inbound fulfillment + outbound shipping + payment fees).",
+      "tags": [
+        "finance",
+        "margin",
+        "headline-metric"
+      ],
+      "generated": {
+        "by": "reference_agent/gemini-2.5-pro",
+        "at": "2026-06-30 14:00:00+00:00"
+      },
+      "verified": [
+        {
+          "by": "human:jsmith@acme",
+          "at": "2026-07-01 09:00:00+00:00"
+        }
+      ],
+      "status": "stable",
+      "stale_after": "2026-12-31",
+      "not": [
+        {
+          "term": "revenue minus product cost only",
+          "why": "that is the pre-FY2026 definition (see gross-margin-legacy). It excluded fulfillment, shipping, and payment fees, and could not be reconciled to the general ledger.",
+          "instead": "revenue minus full COGS (product cost + inbound fulfillment + outbound shipping + payment fees)"
+        }
+      ],
+      "sources": [
+        {
+          "id": "margin-standard",
+          "resource": "policies/margin-standard.md",
+          "title": "Cost Allocation & Margin Standard (FY2026)",
+          "author": "human:jsmith@acme",
+          "last_modified": "2026-06-15"
+        },
+        {
+          "id": "revenue-policy",
+          "resource": "policies/revenue-recognition.md",
+          "title": "Revenue Recognition Policy (FY2026)",
+          "author": "human:jsmith@acme",
+          "last_modified": "2026-06-15"
+        }
+      ]
+    }
+  },
+  "acme_retail/computations/gross-margin-period.md": {
+    "why": "REGRESSION: flow + computation keys -> ExtraFrontmatter",
+    "expected": {
+      "type": "Attested Computation",
+      "title": "Gross margin for a period",
+      "description": "Sanctioned SQL that produces the gross-margin figure for a period, per Acme's FY2026 Cost Allocation Standard (full COGS = product + fulfillment + shipping + payment fees).",
+      "tags": [
+        "finance",
+        "margin",
+        "attested"
+      ],
+      "runtime": "bigquery",
+      "parameters": [
+        {
+          "name": "period_start",
+          "type": "date",
+          "required": "true"
+        },
+        {
+          "name": "period_end",
+          "type": "date",
+          "required": "true"
+        }
+      ],
+      "executor": {
+        "resource": "skills/run-on-bq.md",
+        "receipt": [
+          "job_id",
+          "executed_sql",
+          "result"
+        ]
+      },
+      "attester": {
+        "resource": "attesters/sql_equality.py"
+      },
+      "generated": {
+        "by": "reference_agent/gemini-2.5-pro",
+        "at": "2026-06-30 14:00:00+00:00"
+      },
+      "verified": [
+        {
+          "by": "human:jsmith@acme",
+          "at": "2026-07-01 09:00:00+00:00"
+        }
+      ],
+      "status": "stable",
+      "stale_after": "2026-12-31",
+      "sources": [
+        {
+          "id": "margin-standard",
+          "resource": "policies/margin-standard.md",
+          "title": "Cost Allocation & Margin Standard (FY2026)",
+          "author": "human:jsmith@acme",
+          "last_modified": "2026-06-15"
+        },
+        {
+          "id": "revenue-policy",
+          "resource": "policies/revenue-recognition.md",
+          "title": "Revenue Recognition Policy (FY2026)",
+          "author": "human:jsmith@acme",
+          "last_modified": "2026-06-15"
+        }
+      ]
+    }
+  }
+}

@@ -114,6 +114,8 @@ public static partial class OkfParser
                 case "tags":
                     if (value is JsonArray tagsArr)
                         result.TagsCsv = string.Join(",", tagsArr.Select(n => (n as JsonValue)?.GetValue<string>() ?? ""));
+                    else
+                        result.TagsCsv = ScalarOf(value);
                     break;
                 case "generated":
                     if (value is JsonObject genObj)
