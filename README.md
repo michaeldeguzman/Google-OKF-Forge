@@ -66,10 +66,9 @@ cd OkfParsingLibrary.OdcExternalLogic/publish && zip -r ../../OkfParsingLibrary-
 Zip the *contents* of `publish/`, not the `publish/` folder itself — ODC
 requires the DLLs at the zip root.
 
-ODC's documented recommendation (at time of writing) is `net8.0`. If a Portal
-upload rejects `net10.0`, retarget `OkfParsingLibrary.OdcExternalLogic` (and
-its `OkfParsingLibrary` reference) to `net8.0` and republish — check current
-ODC docs for the supported target framework first.
+`net10.0` is the correct target: OutSystems has advised using `net10.0`
+over `net8.0` for External Logic. Confirmed by a successful upload and test
+in an ODC Personal environment.
 
 ## Design notes
 
