@@ -4,7 +4,7 @@ using OutSystems.ExternalLibraries.SDK;
 namespace OkfParsingLibrary.OdcExternalLogic.Interfaces;
 
 [OSInterface(
-    Name = "OKF Parsing Library",
+    Name = "OKFParsingLibrary",
     Description = "Parses and serialises Open Knowledge Format (OKF) v0.2 bundles. Stateless: every action is pure and never throws on malformed input, reporting problems through the returned structure's ParseError/Message fields instead.",
     IconResourceName = "OkfParsingLibrary.OdcExternalLogic.Resources.OKFODC.jpg"
 )]
