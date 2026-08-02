@@ -1,4 +1,4 @@
-# OkfParsingLibrary
+# OKFParsingLibrary
 
 A stateless C# library that parses and serialises [Open Knowledge Format
 (OKF)](https://github.com/GoogleCloudPlatform/knowledge-catalog) v0.2 bundles,
