@@ -35,6 +35,10 @@ The format is specified in `okf/SPEC.md` in
   that live in ODC's own visual flow builder, not in the shipped library. It
   exists purely to de-risk hand-translating that logic into ODC flows before
   building it there for real — it doesn't reference `OkfParsingLibrary`.
+- **`ODCResources/`** — non-code assets for Forge users to copy/import into
+  their own ODC environment: `Prompts/` (Agent Builder system prompts) and
+  `Tests/` (agent behavior test-question suites). See
+  [`ODCResources/README.md`](ODCResources).
 
 ## Requirements
 
